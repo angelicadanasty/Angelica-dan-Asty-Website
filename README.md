@@ -1,5 +1,6 @@
 # Angelica-dan-Asty-Website
 
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -7,7 +8,6 @@
     <title>Pinky Bracelet | Aksesori Remaja</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Charm:wght@400;700&display=swap" rel="stylesheet">
-    <!-- Menggunakan Font Awesome untuk ikon keranjang -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* Warna Pastel Khas Pinky Bracelet */
@@ -44,6 +44,7 @@
         }
         .product-card:hover {
             transform: translateY(-5px);
+            /* Bayangan lebih manis, meniru warna pink pastel */
             box-shadow: 0 10px 15px -3px rgba(240, 150, 168, 0.5), 0 4px 6px -4px rgba(240, 150, 168, 0.5);
         }
         .flower-decoration {
@@ -76,11 +77,13 @@
                     <span>Total:</span>
                     <span id="cart-total" class="text-pink-600">Rp 0</span>
                 </div>
-                <button onclick="window.location.hash='#form-pemesanan'; closeModal('cart-modal');" class="coquette-button w-full mt-4 py-3 rounded-full font-semibold text-lg hover:shadow-lg">
+                <button onclick="window.location.hash='#form-pemesanan'; closeModal('cart-modal');" class="coquette-button w-full mt-4 py-3 rounded-full font-semibold hover:shadow-lg">
                     Lanjut ke Pemesanan
                 </button>
             </div>
         </div>
+        <!-- Custom Notification Message Box -->
+        <div id="custom-notification" class="fixed top-4 right-4 bg-pink-500 text-white p-3 rounded-lg shadow-xl z-50 transition-all duration-500 transform translate-x-full"></div>
     </div>
 
     <!-- Header & Navigasi -->
@@ -101,24 +104,50 @@
                 <a href="#form-pemesanan" class="text-gray-600 hover:text-pink-500 transition duration-150">Pesan</a>
             </nav>
 
-            <!-- Ikon Keranjang -->
-            <button onclick="openModal('cart-modal')" class="relative p-2 rounded-full coquette-button md:coquette-button">
-                <i class="fas fa-shopping-bag text-xl"></i>
-                <span id="cart-count" class="absolute -top-1 -right-1 bg-pink-600 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">0</span>
-            </button>
+            <!-- Container untuk Tombol Keranjang dan Hamburger -->
+            <div class="flex items-center space-x-3">
+                <!-- Ikon Keranjang -->
+                <button onclick="openModal('cart-modal')" class="relative p-2 rounded-full coquette-button">
+                    <i class="fas fa-shopping-bag text-xl"></i>
+                    <span id="cart-count" class="absolute -top-1 -right-1 bg-pink-600 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">0</span>
+                </button>
+                
+                <!-- Hamburger Menu Button (Mobile Only) -->
+                <button id="menu-toggle-btn" onclick="toggleMobileMenu()" class="p-2 rounded-full coquette-button md:hidden">
+                    <i id="menu-icon" class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
         </div>
+
+        <!-- Mobile Nav Overlay (Added for responsiveness) -->
+        <nav id="mobile-menu" class="absolute top-full left-0 w-full bg-white shadow-xl md:hidden z-30 transition-all duration-300 ease-in-out transform -translate-y-full opacity-0">
+            <div class="flex flex-col p-4 space-y-2 font-medium">
+                <a href="#beranda" onclick="toggleMobileMenu()" class="text-gray-700 hover:bg-pink-100 p-2 rounded-md transition duration-150">Beranda</a>
+                <a href="#tentang-kami" onclick="toggleMobileMenu()" class="text-gray-700 hover:bg-pink-100 p-2 rounded-md transition duration-150">Tentang Kami</a>
+                <a href="#produk" onclick="toggleMobileMenu()" class="text-gray-700 hover:bg-pink-100 p-2 rounded-md transition duration-150">Produk</a>
+                <a href="#testimoni" onclick="toggleMobileMenu()" class="text-gray-700 hover:bg-pink-100 p-2 rounded-md transition duration-150">Testimoni</a>
+                <a href="#form-pemesanan" onclick="toggleMobileMenu()" class="text-gray-700 hover:bg-pink-100 p-2 rounded-md transition duration-150">Pesan</a>
+            </div>
+        </nav>
     </header>
 
     <main class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-
+        
+        <!-- Bagian Autentikasi dan ID Pengguna -->
+        <div class="text-center text-xs text-gray-500 mb-4 p-2 bg-yellow-100 rounded-lg shadow-sm">
+            <p>Status Database: <span id="db-status" class="font-bold text-red-500">Menghubungkan...</span></p>
+            <!-- Menampilkan user ID agar bisa digunakan untuk kolaborasi, sesuai instruksi -->
+            <p>ID Pengguna (Share ini untuk kolaborasi): <span id="user-id-display" class="font-mono text-xs break-all">N/A</span></p>
+        </div>
+        
         <!-- Bagian 1: Beranda (Home) -->
-        <section id="beranda" class="min-h-[50vh] flex flex-col justify-center items-center text-center py-20 bg-purple-100 rounded-3xl shadow-xl mb-12" style="background-color: var(--color-purple-pastel);">
+        <section id="beranda" class="min-h-[50vh] flex flex-col justify-center items-center text-center py-20 bg-purple-100 rounded-3xl shadow-xl mb-12 relative" style="background-color: var(--color-purple-pastel);">
             <i class="fas fa-heart text-5xl text-pink-500 flower-decoration mb-4"></i>
             <h1 class="text-5xl md:text-7xl font-extrabold mb-4 section-title text-dark-accent">
                 Selamat Datang di Pinky Bracelet!
             </h1>
             <p class="text-xl md:text-2xl max-w-2xl text-dark-accent/80 font-medium">
-                Jelajahi koleksi gelang manis & trendy yang akan membuat harimu lebih ceria!
+                Jelajahi koleksi gelang manis & *trendy* yang akan membuat harimu lebih ceria!
             </p>
             <a href="#produk" class="coquette-button mt-8 px-8 py-3 rounded-full font-semibold text-lg hover:shadow-lg">
                 Lihat Semua Produk <i class="fas fa-arrow-right ml-2"></i>
@@ -133,7 +162,7 @@
             <h2 class="text-4xl font-bold mb-6 section-title">Tentang Pinky Bracelet</h2>
             <div class="flex justify-center">
                 <p class="text-lg max-w-3xl px-4 font-medium text-gray-700">
-                    Halo! Kami sebagai Owner dari <span class="font-bold text-pink-500">Pinky Bracelet</span> dengan nama Asty dan Angelica. Kami menciptakan gelang-gelang ini dengan penuh cinta, terinspirasi dari gaya coquette dan keceriaan remaja. Semoga kalian puas dengan produk kami dan aksesoris kami bisa menjadi bagian dari gaya unikmu!
+                    Halo! Kami sebagai Owner dari <span class="font-bold text-pink-500">Pinky Bracelet</span> dengan nama Asty dan Angelica. Kami menciptakan gelang-gelang ini dengan penuh cinta, terinspirasi dari gaya *coquette* dan keceriaan remaja. Semoga kalian puas dengan produk kami dan aksesoris kami bisa menjadi bagian dari gaya unikmu!
                 </p>
             </div>
             <div class="mt-6 flex justify-center space-x-4 text-2xl text-dark-accent">
@@ -153,12 +182,11 @@
 
                 <!-- Produk 1: Gelang Warna Warni -->
                 <div id="product-1" class="product-card rounded-xl overflow-hidden shadow-lg p-6 flex flex-col items-center">
-                    <!-- Placeholder Gambar Gelang Warna Warni -->
-                    <img src="![17629553059807862046229788500061](https://github.com/user-attachments/assets/5c115a52-5613-4339-89ac-5bccf321da0b)
-">
+                    <!-- Menggunakan h-72 agar semua card memiliki tinggi yang konsisten -->
+                    <img src="https://media.karousell.com/media/photos/products/2025/6/20/beads_bracelet__gelang_manik___1750427608_2409c04d_progressive.jpg" alt="Gelang Warna-warni" class="w-full h-72 rounded-lg mb-4 shadow-md object-cover">
                     <h3 class="text-3xl font-bold section-title mb-2">Gelang Warna Warni</h3>
                     <p class="text-xl font-semibold text-pink-600 mb-4">Rp 10.000</p>
-                    <p class="text-center text-gray-600 mb-6">Gelang manik-manik penuh warna yang cocok untuk tampilan sehari-hari yang ceria. Cocok dipadukan dengan semua outfit!</p>
+                    <p class="text-center text-gray-600 mb-6">Gelang manik-manik penuh warna yang cocok untuk tampilan sehari-hari yang ceria. Cocok dipadukan dengan semua *outfit*!</p>
                     <button onclick="addToCart({id: 1, name: 'Gelang Warna Warni', price: 10000})" class="coquette-button w-full py-3 rounded-full font-semibold">
                         Tambah ke Keranjang <i class="fas fa-cart-plus ml-2"></i>
                     </button>
@@ -166,11 +194,11 @@
 
                 <!-- Produk 2: Gelang Y2K -->
                 <div id="product-2" class="product-card rounded-xl overflow-hidden shadow-lg p-6 flex flex-col items-center">
-                    <!-- Placeholder Gambar Gelang Y2K -->
-                    <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.lazada.co.id%2Fproducts%2F8ball-beaded-bracelet-gelang-manik-beads-aesthetic-gelang-y2k-i7999552885.html&psig=AOvVaw2ys2WlTYobtdKADYOGsTQe&ust=1762831662731000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCPiJwfvR5pADFQAAAAAdAAAAABAE">
+                    <!-- Menggunakan h-72 agar semua card memiliki tinggi yang konsisten -->
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVMsy88qks5m7h7i2SFeY04eMNI4UKThyTmnSKsTOmhw&s" alt="Gelang Y2K" class="w-full h-72 rounded-lg mb-4 shadow-md object-cover">
                     <h3 class="text-3xl font-bold section-title mb-2">Gelang Y2K</h3>
                     <p class="text-xl font-semibold text-pink-600 mb-4">Rp 10.000</p>
-                    <p class="text-center text-gray-600 mb-6">Gelang dengan desain manik-manik unik, terinspirasi dari gaya populer tahun 2000-an. A must-have!</p>
+                    <p class="text-center text-gray-600 mb-6">Gelang dengan desain manik-manik unik, terinspirasi dari gaya populer tahun 2000-an. *A must-have*!</p>
                     <button onclick="addToCart({id: 2, name: 'Gelang Y2K', price: 10000})" class="coquette-button w-full py-3 rounded-full font-semibold">
                         Tambah ke Keranjang <i class="fas fa-cart-plus ml-2"></i>
                     </button>
@@ -183,6 +211,11 @@
             <h2 class="text-4xl font-bold text-center mb-10 section-title text-dark-accent">
                 Bagikan Manisnya Pengalamanmu <i class="fas fa-comment-dots text-purple-600"></i>
             </h2>
+            
+            <!-- Daftar Testimoni dari Firestore -->
+            <div id="testimonials-list" class="max-w-2xl mx-auto space-y-4 mb-8">
+                <p class="text-center text-gray-500 italic" id="no-testimonials">Memuat testimoni...</p>
+            </div>
 
             <div class="max-w-xl mx-auto p-6 bg-white rounded-xl shadow-lg">
                 <form id="testimonial-form" class="space-y-4">
@@ -194,7 +227,7 @@
                         <label for="testi-text" class="block text-sm font-medium text-gray-700">Testimoni Anda *</label>
                         <textarea id="testi-text" required rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-3 focus:border-pink-500 focus:ring focus:ring-pink-200" placeholder="Tuliskan pendapatmu tentang produk kami..."></textarea>
                     </div>
-                    <button type="submit" class="coquette-button w-full py-3 rounded-full font-semibold hover:shadow-lg">
+                    <button type="submit" id="submit-testi-btn" class="coquette-button w-full py-3 rounded-full font-semibold hover:shadow-lg">
                         Kirim Testimoni
                     </button>
                     <div id="testi-message" class="text-center mt-3 text-sm font-medium text-green-600 hidden">Terima kasih atas testimonimu yang manis!</div>
@@ -228,7 +261,6 @@
                     <div class="border-t pt-4 border-pink-300">
                         <h3 class="text-xl font-bold section-title mb-3">Ringkasan Pesanan</h3>
                         <div id="order-summary-list" class="space-y-2 text-gray-700">
-                            <!-- Ringkasan cart akan diisi di sini -->
                             <p id="empty-order-message" class="text-center italic text-red-500">Keranjang masih kosong. Silakan pilih produk terlebih dahulu.</p>
                         </div>
                         <div class="flex justify-between font-bold text-2xl mt-4 border-t pt-2 border-pink-300">
@@ -265,9 +297,205 @@
         <p>&copy; 2025 Pinky Bracelet. Dibuat dengan cinta oleh Asty dan Angelica.</p>
     </footer>
 
-    <script>
-        // Inisialisasi Keranjang dan Daftar Produk
-        let cart = JSON.parse(localStorage.getItem('pinkyBraceletCart')) || [];
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { 
+            getAuth, 
+            signInAnonymously, 
+            signInWithCustomToken, 
+            onAuthStateChanged 
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { 
+            getFirestore, 
+            doc, 
+            setDoc, 
+            onSnapshot, 
+            collection, 
+            addDoc, 
+            serverTimestamp,
+            query
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        
+        // --- MANDATORY GLOBAL VARIABLES ---
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+        
+        let app;
+        let db;
+        let auth;
+        let userId = null;
+        let cart = []; // Local representation of the cart
+        let isAuthReady = false;
+
+        // --- FIREBASE INITIALIZATION ---
+        try {
+            app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+
+            // 1. Authentication Listener
+            onAuthStateChanged(auth, async (user) => {
+                isAuthReady = true;
+                if (user) {
+                    userId = user.uid;
+                    document.getElementById('db-status').textContent = 'Tersambung';
+                    document.getElementById('db-status').classList.remove('text-red-500');
+                    document.getElementById('db-status').classList.add('text-green-600');
+                    document.getElementById('user-id-display').textContent = userId;
+
+                    // 2. Start Data Listeners AFTER Auth is Ready
+                    loadCartFromFirestore();
+                    loadTestimonials();
+                } else {
+                    // Sign in anonymously if no user is found
+                    if (initialAuthToken) {
+                        await signInWithCustomToken(auth, initialAuthToken);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+                }
+            });
+
+            // 3. Initial Sign-In Attempt (Triggered if not already signed in)
+            // This is primarily for the first load to ensure we get a user/token ASAP
+            if (!auth.currentUser) {
+                if (initialAuthToken) {
+                    // Note: We don't await here as the onAuthStateChanged listener handles the rest
+                    signInWithCustomToken(auth, initialAuthToken).catch(e => console.error("Initial Token Sign-In Failed:", e));
+                } else {
+                    signInAnonymously(auth).catch(e => console.error("Initial Anonymous Sign-In Failed:", e));
+                }
+            }
+
+        } catch (error) {
+            console.error("Firebase/Authentication Error:", error);
+            document.getElementById('db-status').textContent = 'GAGAL (Lihat konsol)';
+            document.getElementById('db-status').classList.add('text-red-500');
+        }
+
+        // --- FIRESTORE REFERENCES ---
+        function getCartDocRef() {
+            if (!db || !userId) return null;
+            // Path: /artifacts/{appId}/users/{userId}/pinky_cart/myCart (Private)
+            return doc(db, 'artifacts', appId, 'users', userId, 'pinky_cart', 'myCart');
+        }
+
+        function getTestimonialsCollectionRef() {
+            if (!db) return null;
+            // Path: /artifacts/{appId}/public/data/pinky_testimonials (Public)
+            return collection(db, 'artifacts', appId, 'public', 'data', 'pinky_testimonials');
+        }
+
+        function getOrdersCollectionRef() {
+            if (!db) return null;
+            // Path: /artifacts/{appId}/public/data/pinky_orders (Public: For shop owners to view orders)
+            return collection(db, 'artifacts', appId, 'public', 'data', 'pinky_orders');
+        }
+
+        // --- CART LOGIC (Firestore Integration) ---
+
+        // Pushes the local 'cart' array to Firestore
+        async function updateCartInFirestore() {
+            const cartRef = getCartDocRef();
+            if (cartRef) {
+                try {
+                    // Ensure 'items' array is saved correctly
+                    await setDoc(cartRef, { items: cart, lastUpdate: serverTimestamp() }, { merge: true });
+                } catch (e) {
+                    console.error("Error updating cart:", e);
+                    showNotification("Gagal menyimpan keranjang ke database.");
+                }
+            }
+        }
+
+        // Sets up the real-time listener for the user's cart
+        function loadCartFromFirestore() {
+            const cartRef = getCartDocRef();
+            if (cartRef) {
+                onSnapshot(cartRef, (docSnap) => {
+                    if (docSnap.exists() && docSnap.data().items) {
+                        cart = docSnap.data().items;
+                    } else {
+                        cart = []; // Empty cart if doc doesn't exist
+                    }
+                    updateCartUI(); // Update the local UI with the data from Firestore
+                }, (error) => {
+                    console.error("Error loading cart:", error);
+                });
+            }
+        }
+
+        // --- TESTIMONIALS LOGIC (Firestore Integration) ---
+
+        function loadTestimonials() {
+            const testiRef = getTestimonialsCollectionRef();
+            if (testiRef) {
+                // Query: Ambil semua testimoni. Gunakan query() tanpa orderBy untuk menghindari index error.
+                const q = query(testiRef); 
+                
+                onSnapshot(q, (snapshot) => {
+                    const testimonialsList = document.getElementById('testimonials-list');
+                    testimonialsList.innerHTML = '';
+                    let testimonials = [];
+                    
+                    snapshot.forEach(doc => {
+                        testimonials.push(doc.data());
+                    });
+                    
+                    // Sortir secara lokal berdasarkan timestamp (terbaru di atas)
+                    testimonials.sort((a, b) => {
+                        // Safely access timestamp and convert to date object for comparison
+                        const dateA = a.timestamp?.toDate ? a.timestamp.toDate().getTime() : 0;
+                        const dateB = b.timestamp?.toDate ? b.timestamp.toDate().getTime() : 0;
+                        return dateB - dateA; // Descending (Newest first)
+                    });
+                    
+                    const noTestimonialsMessage = document.getElementById('no-testimonials');
+
+                    if (testimonials.length === 0) {
+                        if (!noTestimonialsMessage) {
+                             const p = document.createElement('p');
+                             p.id = 'no-testimonials';
+                             p.className = 'text-center text-gray-500 italic';
+                             p.textContent = 'Belum ada testimoni. Jadilah yang pertama!';
+                             testimonialsList.appendChild(p);
+                        } else {
+                            noTestimonialsMessage.textContent = 'Belum ada testimoni. Jadilah yang pertama!';
+                            testimonialsList.appendChild(noTestimonialsMessage);
+                        }
+                        return;
+                    }
+                    
+                    // Render Testimonials
+                    testimonials.forEach(t => {
+                        // Use try-catch for date conversion safety
+                        let dateString = 'Tanggal tidak diketahui';
+                        try {
+                             const date = t.timestamp?.toDate ? t.timestamp.toDate() : new Date(0); // Default to a very old date if timestamp is missing
+                             dateString = date.toLocaleDateString('id-ID', { year: 'numeric', month: 'short', day: 'numeric' });
+                        } catch (e) {
+                             console.warn("Could not parse timestamp:", e);
+                        }
+                        
+                        const testiDiv = document.createElement('div');
+                        testiDiv.className = 'bg-white p-4 rounded-lg shadow-sm border border-pink-200';
+                        testiDiv.innerHTML = `
+                            <p class="italic text-gray-700">"${t.text}"</p>
+                            <div class="mt-2 text-sm text-right font-medium text-dark-accent">
+                                - ${t.name || 'Anonim'} <span class="text-xs text-gray-400">(${dateString})</span>
+                            </div>
+                        `;
+                        testimonialsList.appendChild(testiDiv);
+                    });
+                }, (error) => {
+                    console.error("Error loading testimonials:", error);
+                });
+            }
+        }
+
+
+        // --- UI & HELPER FUNCTIONS ---
 
         // Fungsi Helper: Format Rupiah
         function formatRupiah(number) {
@@ -279,7 +507,7 @@
         }
 
         // Fungsi Utama: Memperbarui tampilan keranjang dan order form
-        function updateCart() {
+        function updateCartUI() {
             const cartCountElement = document.getElementById('cart-count');
             const cartItemsContainer = document.getElementById('cart-items');
             const cartTotalElement = document.getElementById('cart-total');
@@ -301,6 +529,7 @@
             if (cart.length === 0) {
                 emptyMessage.classList.remove('hidden');
                 cartTotalElement.textContent = formatRupiah(0);
+                cartItemsContainer.appendChild(emptyMessage);
             } else {
                 emptyMessage.classList.add('hidden');
                 cart.forEach(item => {
@@ -313,7 +542,7 @@
                         </div>
                         <div class="flex items-center space-x-3">
                             <span class="font-bold text-pink-500">${item.quantity}x</span>
-                            <button onclick="removeFromCart(${item.id})" class="text-red-500 hover:text-red-700 text-lg">
+                            <button onclick="window.removeFromCart(${item.id})" class="text-red-500 hover:text-red-700 text-lg">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
@@ -328,6 +557,7 @@
             if (cart.length === 0) {
                 emptyOrderMessage.classList.remove('hidden');
                 orderTotalElement.textContent = formatRupiah(0);
+                orderSummaryList.appendChild(emptyOrderMessage);
             } else {
                 emptyOrderMessage.classList.add('hidden');
                 cart.forEach(item => {
@@ -341,42 +571,62 @@
                 });
                 orderTotalElement.textContent = formatRupiah(total);
             }
-
-            // Simpan ke Local Storage
-            localStorage.setItem('pinkyBraceletCart', JSON.stringify(cart));
         }
 
-        // Fungsi: Tambah Produk ke Keranjang
-        function addToCart(product) {
+        // Fungsi: Tambah Produk ke Keranjang (Updates local cart then syncs to Firestore)
+        window.addToCart = function(product) {
             const existingItem = cart.find(item => item.id === product.id);
             if (existingItem) {
                 existingItem.quantity += 1;
             } else {
                 cart.push({ ...product, quantity: 1 });
             }
-            updateCart();
-            // Tampilkan notifikasi kecil (customized alert replacement)
-            showNotification("${product.name}" ditambahkan ke keranjang!);
+            updateCartInFirestore();
+            showNotification(`"${product.name}" ditambahkan ke keranjang!`);
         }
 
-        // Fungsi: Hapus Item dari Keranjang
-        function removeFromCart(productId) {
+        // Fungsi: Hapus Item dari Keranjang (Updates local cart then syncs to Firestore)
+        window.removeFromCart = function(productId) {
             const itemIndex = cart.findIndex(item => item.id === productId);
             if (itemIndex > -1) {
+                // Hapus item dari keranjang lokal
                 cart.splice(itemIndex, 1);
             }
-            updateCart();
+            updateCartInFirestore();
+            showNotification(`Item berhasil dihapus dari keranjang.`);
+        }
+
+        // Fungsi: Toggle Menu Mobile
+        window.toggleMobileMenu = function() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            const isOpen = menu.classList.toggle('translate-y-0');
+
+            if (isOpen) {
+                 // Open state
+                menu.classList.remove('-translate-y-full', 'opacity-0');
+                menu.classList.add('opacity-100');
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times'); // Change to close icon
+            } else {
+                // Close state
+                menu.classList.add('-translate-y-full', 'opacity-0');
+                menu.classList.remove('opacity-100');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars'); // Change back to hamburger icon
+            }
         }
 
         // Fungsi: Modal Logic (Open/Close)
-        function openModal(id) {
+        window.openModal = function(id) {
             const modal = document.getElementById(id);
             if (modal) {
                 modal.classList.remove('hidden');
                 setTimeout(() => modal.classList.remove('opacity-0'), 10);
+                updateCartUI(); // Pastikan keranjang di-update saat dibuka
             }
         }
-        function closeModal(id) {
+        window.closeModal = function(id) {
             const modal = document.getElementById(id);
             if (modal) {
                 modal.classList.add('opacity-0');
@@ -387,12 +637,8 @@
         // Fungsi: Notifikasi (Pengganti alert())
         function showNotification(message) {
             let notification = document.getElementById('custom-notification');
-            if (!notification) {
-                notification = document.createElement('div');
-                notification.id = 'custom-notification';
-                notification.className = 'fixed top-4 right-4 bg-pink-500 text-white p-3 rounded-lg shadow-xl z-50 transition-all duration-500 transform translate-x-full';
-                document.body.appendChild(notification);
-            }
+            if (!notification) return; // Should not happen as it's defined in HTML
+
             notification.textContent = message;
             notification.classList.remove('translate-x-full');
             notification.classList.add('translate-x-0');
@@ -405,56 +651,130 @@
         }
 
         // Event Listener untuk Formulir Testimoni
-        document.getElementById('testimonial-form').addEventListener('submit', function(e) {
+        document.getElementById('testimonial-form').addEventListener('submit', async function(e) {
             e.preventDefault();
+            const nameInput = document.getElementById('testi-name').value.trim();
+            const textInput = document.getElementById('testi-text').value.trim();
             const messageElement = document.getElementById('testi-message');
-            // Dalam aplikasi nyata, data ini akan dikirim ke server/Firestore.
-            // Di sini, kita hanya menampilkan pesan sukses.
-            messageElement.classList.remove('hidden');
-            setTimeout(() => {
-                messageElement.classList.add('hidden');
-                this.reset();
-            }, 3000);
-        });
+            const submitBtn = document.getElementById('submit-testi-btn');
 
-        // Event Listener untuk Formulir Pemesanan
-        document.getElementById('order-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            if (cart.length === 0) {
-                showNotification("Keranjang kosong. Harap tambahkan produk terlebih dahulu.");
+            if (!textInput) {
+                showNotification("Testimoni tidak boleh kosong.");
                 return;
             }
 
-            const messageElement = document.getElementById('order-message');
-            // Dalam aplikasi nyata, data ini akan dikirim ke server/Firestore.
-            // Di sini, kita hanya menampilkan pesan sukses.
-            messageElement.classList.remove('hidden');
+            if (!isAuthReady) {
+                 showNotification("Database belum siap. Coba lagi sebentar.");
+                 return;
+            }
 
-            // Reset cart setelah konfirmasi
-            cart = [];
-            updateCart();
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Mengirim...';
 
-            setTimeout(() => {
-                messageElement.classList.add('hidden');
-                this.reset();
-            }, 5000);
+            const testiCollectionRef = getTestimonialsCollectionRef();
+            if (testiCollectionRef) {
+                try {
+                    await addDoc(testiCollectionRef, {
+                        name: nameInput || 'Anonim',
+                        text: textInput,
+                        timestamp: serverTimestamp(),
+                        userId: userId
+                    });
+                    
+                    messageElement.classList.remove('hidden');
+                    document.getElementById('testi-name').value = '';
+                    document.getElementById('testi-text').value = '';
+
+                } catch (error) {
+                    console.error("Error adding testimonial:", error);
+                    showNotification("Gagal mengirim testimoni. Coba lagi.");
+                    messageElement.classList.add('hidden');
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Kirim Testimoni';
+                    // Hide success message after a few seconds
+                    setTimeout(() => messageElement.classList.add('hidden'), 5000); 
+                }
+            } else {
+                showNotification("Database tidak siap. Coba lagi sebentar.");
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Kirim Testimoni';
+            }
         });
 
-        // Inisialisasi tampilan saat halaman dimuat
-        window.onload = function() {
-            updateCart();
-            // Tambahkan notifikasi div ke body saat dimuat
-            const notification = document.createElement('div');
-            notification.id = 'custom-notification';
-            notification.className = 'fixed top-4 right-4 bg-pink-500 text-white p-3 rounded-lg shadow-xl z-50 transition-all duration-500 transform translate-x-full';
-            document.body.appendChild(notification);
-        };
-    </script>
+        // Event Listener untuk Formulir Pemesanan
+        document.getElementById('order-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (cart.length === 0) {
+                showNotification("Keranjangmu kosong, tidak bisa membuat pesanan!");
+                return;
+            }
 
+            const name = document.getElementById('order-name').value.trim();
+            const address = document.getElementById('order-address').value.trim();
+            const phone = document.getElementById('order-phone').value.trim();
+            const orderMessage = document.getElementById('order-message');
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+
+            if (!name || !address || !phone) {
+                showNotification("Mohon lengkapi semua data pemesanan (Nama, Alamat, Telepon).");
+                return;
+            }
+
+            if (!isAuthReady) {
+                showNotification("Database belum siap. Coba lagi sebentar.");
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Memproses Pesanan...';
+
+            const ordersCollectionRef = getOrdersCollectionRef();
+            const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+            if (ordersCollectionRef) {
+                try {
+                    const orderData = {
+                        customerName: name,
+                        customerAddress: address,
+                        customerPhone: phone,
+                        items: cart,
+                        totalAmount: total,
+                        orderDate: serverTimestamp(),
+                        userId: userId,
+                        status: 'Pending Payment'
+                    };
+                    
+                    // 1. Simpan pesanan ke koleksi public/pinky_orders
+                    await addDoc(ordersCollectionRef, orderData);
+
+                    // 2. Hapus keranjang setelah pesanan berhasil
+                    cart = [];
+                    await updateCartInFirestore(); // Ini akan mengosongkan keranjang di Firestore dan memicu updateCartUI
+                    
+                    // 3. Tampilkan pesan sukses dan reset form
+                    orderMessage.classList.remove('hidden');
+                    document.getElementById('order-form').reset();
+                    
+                    showNotification("Pesanan berhasil dikonfirmasi!");
+
+                } catch (error) {
+                    console.error("Error confirming order:", error);
+                    showNotification("Gagal menyimpan pesanan. Coba lagi.");
+                    orderMessage.classList.add('hidden');
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Konfirmasi Pesanan Selesai';
+                    // Sembunyikan pesan sukses setelah 8 detik
+                    setTimeout(() => orderMessage.classList.add('hidden'), 8000); 
+                }
+            } else {
+                showNotification("Database tidak siap. Coba lagi sebentar.");
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Konfirmasi Pesanan Selesai';
+            }
+        });
+    </script>
 </body>
 </html>
-import { createClient } from '@supabase/supabase-js'
-
-const supabaseUrl = 'https://wepynmswqukownyhpedm.supabase.co'
-const supabaseKey = process.env.SUPABASE_KEY
-const supabase = createClient(supabaseUrl, supabaseKey)
