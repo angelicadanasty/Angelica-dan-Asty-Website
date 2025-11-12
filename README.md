@@ -154,7 +154,8 @@
                 <!-- Produk 1: Gelang Warna Warni -->
                 <div id="product-1" class="product-card rounded-xl overflow-hidden shadow-lg p-6 flex flex-col items-center">
                     <!-- Placeholder Gambar Gelang Warna Warni -->
-                    <img src="https://www.google.com/imgres?q=gelang%20manik%20warna%20warni&imgurl=https%3A%2F%2Fid-test-11.slatic.net%2Fp%2F5a5cb9afd1a2c8af2f96f3957ad32316.jpg&imgrefurl=https%3A%2F%2Fh5.lazada.co.id%2Fproducts%2Fxiami-gelang-manik-manik-karakter-lucu-imut-bracelet-gelang-tangan-lucu-aesthetic-jelly-warna-warni-i7977516686.html&docid=35KtgjireMYzfM&tbnid=UXibo5GfCGFSJM&vet=12ahUKEwiKw4bN0eaQAxU1ZyoJHYSLMHMQM3oECBgQAA..i&w=1024&h=1024&hcb=2&ved=2ahUKEwiKw4bN0eaQAxU1ZyoJHYSLMHMQM3oECBgQAA">
+                    <img src="![17629553059807862046229788500061](https://github.com/user-attachments/assets/5c115a52-5613-4339-89ac-5bccf321da0b)
+">
                     <h3 class="text-3xl font-bold section-title mb-2">Gelang Warna Warni</h3>
                     <p class="text-xl font-semibold text-pink-600 mb-4">Rp 10.000</p>
                     <p class="text-center text-gray-600 mb-6">Gelang manik-manik penuh warna yang cocok untuk tampilan sehari-hari yang ceria. Cocok dipadukan dengan semua outfit!</p>
